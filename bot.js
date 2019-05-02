@@ -272,8 +272,27 @@ ${prefix}queue ⇏ لمعرفة قآئمة التشغيل
    
    }
    });
- 
- 
+  
+client.on('ready',async () => {
+  let GUILDID = ''; // 571682311599554580
+  let CHANNELID = ''; // 573267995284078614
+  voiceStay(GUILDID, CHANNELID);
+  function voiceStay(guildid, channelid) {
+    if(!guildid) throw new Error('Syntax: voiceStay function requires guildid');
+    if(!channelid) throw new Error('Syntax: voiceStay function requires channelid');
+
+    let guild = client.guilds.get(guildid);
+    let channel = guild.channels.get(channelid);
+
+    if(channel.type === 'voice') {
+      channel.join().catch(e => {
+        console.log(`Failed To Join :: ${e.message}`);
+      });
+    } else {
+      console.log(`Channel Type :: ${channel.type}, It must be Voice.`);
+    }
+  }
+});
  
  
 client.login(process.env.BOT_TOKEN);
